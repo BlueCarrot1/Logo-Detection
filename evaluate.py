@@ -76,7 +76,40 @@ def calculate_iou(box1, box2):
     return iou
 
 
-def hungarian_matching(true_boxes, pred_boxes):
+def nms(boxes, iou_threshold=0.9):
+    """
+    非极大值抑制（NMS）去重
+    - boxes: [[x1,y1,x2,y2], ...]
+    - iou_threshold: IoU threshold，超过该阈值的框会被认为是重复框。
+    """
+    if len(boxes) == 0:
+        return [], []
+    boxes = np.array(boxes)
+    x1 = boxes[:, 0]
+    y1 = boxes[:, 1]
+    x2 = boxes[:, 2]
+    y2 = boxes[:, 3]
+    areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+    indices = np.argsort(areas)
+    keep = []
+    while len(indices) > 0:
+        last = len(indices) - 1
+        i = indices[last]
+        keep.append(i)
+        xx1 = np.maximum(x1[i], x1[indices[:last]])
+        yy1 = np.maximum(y1[i], y1[indices[:last]])
+        xx2 = np.minimum(x2[i], x2[indices[:last]])
+        yy2 = np.minimum(y2[i], y2[indices[:last]])
+        w = np.maximum(0, xx2 - xx1 + 1)
+        h = np.maximum(0, yy2 - yy1 + 1)
+        inter = w * h
+        iou = inter / (areas[i] + areas[indices[:last]] - inter)
+        indices = np.delete(indices, np.concatenate(([last], np.where(iou > iou_threshold)[0])))
+    new_boxes = boxes[keep].tolist()
+    return new_boxes
+
+
+def hungarian_matching(true_boxes, pred_boxes, iou_threshold):
     """
     使用匈牙利算法进行box匹配
     :param true_boxes: 真实box列表 [[x1,y1,x2,y2], ...]
@@ -96,7 +129,7 @@ def hungarian_matching(true_boxes, pred_boxes):
     for i in range(len(true_indices)):
         true_idx = true_indices[i]
         pred_idx = pred_indices[i]
-        if calculate_iou(true_boxes[true_idx], pred_boxes[pred_idx]) > 0:
+        if calculate_iou(true_boxes[true_idx], pred_boxes[pred_idx]) > iou_threshold:
             matches.append((true_idx, pred_idx, calculate_iou(true_boxes[true_idx], pred_boxes[pred_idx])))
     matched_true = set([m[0] for m in matches])
     matched_pred = set([m[1] for m in matches])
@@ -113,10 +146,12 @@ def evaluate_matching(true_boxes_list, pred_boxes_list, iou_threshold=0.5):
     :param iou_threshold: IoU阈值
     :return: 评估结果字典
     """
+    # nms drop duplicates
+    true_boxes_list = nms(true_boxes_list, iou_threshold=0.9)
     # hungarian_matching
     matches, unmatched_true, unmatched_pred = hungarian_matching(true_boxes_list, pred_boxes_list, iou_threshold)
 
-    num_true, num_pred = len(true_boxes), len(pred_boxes)
+    num_true, num_pred = len(true_boxes_list), len(pred_boxes_list)
     num_matches = len(matches)
     
     # mIoU: only calculate for matched box pairs
@@ -141,5 +176,4 @@ def evaluate_matching(true_boxes_list, pred_boxes_list, iou_threshold=0.5):
         'matches': matches  # 每个匹配项包含 (true_idx, pred_idx, iou)
     }
     return results
-
 
