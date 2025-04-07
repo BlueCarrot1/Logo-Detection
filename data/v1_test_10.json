@@ -1,0 +1,112 @@
+[
+    {
+        "image": "iVucW5uyqe8Q3GT7GXPM.jpg",
+        "bounding box": [
+            [
+                417,
+                724,
+                555,
+                754
+            ]
+        ]
+    },
+    {
+        "image": "fiYn7YWR8oj9C7SlNC4H.jpg",
+        "bounding box": [
+            [
+                1036,
+                862,
+                1331,
+                924
+            ]
+        ]
+    },
+    {
+        "image": "TydoHugBubFF4OV11JXs.jpg",
+        "bounding box": [
+            [
+                430,
+                784,
+                905,
+                912
+            ]
+        ]
+    },
+    {
+        "image": "p8n5FkZtTKT9nMW8USXG.jpg",
+        "bounding box": [
+            [
+                1055,
+                637,
+                1464,
+                765
+            ]
+        ]
+    },
+    {
+        "image": "wKC4C283jQWRSF4Gmbyw.jpg",
+        "bounding box": [
+            [
+                197,
+                18,
+                378,
+                57
+            ]
+        ]
+    },
+    {
+        "image": "XE86i3VWh1WwyV0n7F12.jpg",
+        "bounding box": [
+            [
+                771,
+                606,
+                995,
+                667
+            ]
+        ]
+    },
+    {
+        "image": "3wT1xyEM926I9qCOuPZV.jpg",
+        "bounding box": [
+            [
+                341,
+                432,
+                595,
+                498
+            ]
+        ]
+    },
+    {
+        "image": "2q6gtfiur34TguH2MM8e.jpg",
+        "bounding box": [
+            [
+                462,
+                820,
+                1019,
+                979
+            ]
+        ]
+    },
+    {
+        "image": "qrypG9JSGJjQcvpnxJA8.jpg",
+        "bounding box": [
+            [
+                76,
+                349,
+                266,
+                403
+            ]
+        ]
+    },
+    {
+        "image": "U00iW0HAW5ddF0Ks35qJ.jpg",
+        "bounding box": [
+            [
+                302,
+                119,
+                466,
+                163
+            ]
+        ]
+    }
+]
