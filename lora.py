@@ -231,8 +231,8 @@ if __name__ == '__main__':
     parser.add_argument("--data_train_image_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_image", help="path to dataset")
     parser.add_argument("--data_val_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_test_10.json", help="path to dataset")
     parser.add_argument("--data_val_image_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_image", help="path to dataset")
-    parser.add_argument("--frozen_vision", type= bool, default = False, help='frozen vision encoder')
-    parser.add_argument("--save_path", type=str, default='./output/v1_lora_vision_froze_demo', help='path to save log')
+    parser.add_argument("--frozen_vision", type= bool, default = True, help='frozen vision encoder')
+    parser.add_argument("--save_path", type=str, default='./output/v1_lora_vision_non_froze_demo', help='path to save log')
     parser.add_argument("--checkpoint", type=str, default='/root/autodl-tmp/model/florence', help="path to model")
     # hyper-parameter
     parser.add_argument("--epochs", type=int, default=50, help="epochs")
