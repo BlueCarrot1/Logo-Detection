@@ -14,7 +14,7 @@ def convert_box_format(img, box_list):
     for box in box_list:
         x1, y1, x2, y2 = box
         refined_box_list.append([int(x1/width * SCALED_IMAGE_SIZE) , int(y1/height * SCALED_IMAGE_SIZE), 
-                                 int(x2/width * SCALED_IMAGE_SIZE), int(y2/height * SCALED_IMAGE_SIZE]))
+                                 int(x2/width * SCALED_IMAGE_SIZE), int(y2/height * SCALED_IMAGE_SIZE)])
     return refined_box_list
 
 def add_prefix(text = "logo", task = "<CAPTION_TO_PHRASE_GROUNDING>"):

@@ -104,10 +104,11 @@ def train_model(train_loader, val_loader, model, processor, device, logger, save
             print(f"Average Validation Loss: {avg_val_loss}")
 
         # 保存每个epoch的模型
-        output_dir = f"{save_path}/epoch_{epoch + 1}"
-        os.makedirs(output_dir, exist_ok=True)
-        model.save_pretrained(output_dir)
-        processor.save_pretrained(output_dir,use_safetensors=False)
+        if epoch % 5 == 0:
+            output_dir = f"{save_path}/epoch_{epoch + 1}"
+            os.makedirs(output_dir, exist_ok=True)
+            model.save_pretrained(output_dir)
+            processor.save_pretrained(output_dir,use_safetensors=False)
 
     return train_losses, val_losses
 
@@ -181,9 +182,11 @@ def main(args):
     #model
     model = AutoModelForCausalLM.from_pretrained(
         checkpoint, trust_remote_code=True, revision=revision).to(device)
-    
-    for param in model.vision_tower.parameters():
-        param.is_trainable = False
+
+    logger.info("whether frozen vision: {}".format(args.frozen_vision))
+    if args.frozen_vision:
+        for param in model.vision_tower.parameters():
+            param.is_trainable = False
     
     # AutoProcessor crop_image_size=768
     processor = AutoProcessor.from_pretrained(
@@ -191,8 +194,7 @@ def main(args):
 
     peft_model = get_peft_model(model, config).to(device)
     trainable_parameters  = peft_model.print_trainable_parameters()
-    # logger.info("Trainable parameters: {}".format(trainable_parameters))
-    print(trainable_parameters)
+    logger.info("Trainable parameters: {}".format(trainable_parameters))
 
     # load dataset
     train_dataset = DetectionDataset(
@@ -221,20 +223,19 @@ def main(args):
     plot_loss_from_file(f'{save_path}/loss_history.txt', save_path, plt_config)
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Florence_lora_train", add_help=False)
     # path
     # parser.add_argument("--dataset_location", type=str, default="./dataset/fabric", help="path to dataset")
-    parser.add_argument("--data_train_path", type=str, default="/root/autodl-tmp/Logo-Detection/data/v1_records.json", help="path to dataset")
-    parser.add_argument("--data_train_image_path", type=str, default="/root/autodl-tmp/Logo-Detection/data/v1_image", help="path to dataset")
-    parser.add_argument("--data_val_path", type=str, default="/root/autodl-tmp/Logo-Detection/data/v1_records.json", help="path to dataset")
-    parser.add_argument("--data_val_image_path", type=str, default="/root/autodl-tmp/Logo-Detection/data/v1_image", help="path to dataset")
-    
+    parser.add_argument("--data_train_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_records_refined_box_format.json", help="path to dataset")
+    parser.add_argument("--data_train_image_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_image", help="path to dataset")
+    parser.add_argument("--data_val_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_test_10.json", help="path to dataset")
+    parser.add_argument("--data_val_image_path", type=str, default="/root/autodl-tmp/Deep Learning/Logo-Detection/data/v1_image", help="path to dataset")
+    parser.add_argument("--frozen_vision", type= bool, default = False, help='frozen vision encoder')
     parser.add_argument("--save_path", type=str, default='./output/v1_lora_vision_froze_demo', help='path to save log')
     parser.add_argument("--checkpoint", type=str, default='/root/autodl-tmp/model/florence', help="path to model")
     # hyper-parameter
-    parser.add_argument("--epochs", type=int, default=5, help="epochs")
+    parser.add_argument("--epochs", type=int, default=50, help="epochs")
     parser.add_argument("--learning_rate", type=float, default=5e-6, help="learning rate")
     parser.add_argument("--batch_size", type=int, default=2, help="batch size")
     parser.add_argument("--num_workers", type=int, default=0, help="num_workers")
