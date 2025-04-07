@@ -49,7 +49,8 @@ class JSONLDataset:
         entry = self.entries[idx]
         image_path = os.path.join(self.image_directory_path, entry['image'])
         try:
-            image = url_image(image_path)
+            # image = url_image(image_path)
+            image = url_image(image_path).convert("L").convert("RGB")
             return (image, entry)
         except FileNotFoundError:
             raise FileNotFoundError(f"Image file {image_path} not found.")
