@@ -4,4 +4,8 @@ use florence model for few shot special logo detection;  iou reward training wit
 train frozen visual parameter: NVIDIA-SMI
 ![image](./img/1.png)
 
-train lora : ...
+train lora: finish
+
+train with RL: use IOU reward ...
+
+evaluate: ...
