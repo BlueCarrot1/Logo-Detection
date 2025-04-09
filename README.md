@@ -34,3 +34,8 @@ evaluate: evaluate.py
 train with RL ...
 
 
+florence路径：https://huggingface.co/microsoft/Florence-2-large-ft
+
+qwen2 vl 2b instruct路径: https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct 
+
+
