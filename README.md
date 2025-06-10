@@ -1,4 +1,5 @@
-# Logo-Detection
+# VLM for Logo-Detection
+![image](img/logo.jpg)
 use florence model for few shot special logo detection;  iou reward training with grpo for VLM: Qwen2.5 VL 
 
 # Train
@@ -26,7 +27,7 @@ Qwen2.5VL
 ![Qwen2.5 VL 3B instruct](img/7.png)
 
 ## 真实效果展示
-
-![anker](img/3.jpg)
+anker
+<img src="img/3.jpg" width ="200" />
 ![麦当劳](img/5.jpg)
 ![huawei](img/6.jpg)
