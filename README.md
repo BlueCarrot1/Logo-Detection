@@ -9,14 +9,24 @@ train lora
 ## Qwen2.5 VL SFT + GRPO
 
 for sft training:
-```bash Qwen2.5VL/SFT/scripts/train.sh```
+```bash Qwen_2_5VL/SFT/scripts/train.sh```
 
 for GRPO training:
-```bash Qwen2.5VL/GRPO/grpo.py```
+```bash Qwen_2_5VL/GRPO/grpo.py```
 reward design
 - IOU reward: matched boxes's performance, using mIOU
 - match reward: non match boxes 's performance, using F1 score
 
 # results
 
+## 指标
+Florence2
+![Florence2](img/4.png)
+Qwen2.5VL
+![Qwen2.5 VL 3B instruct](img/7.png)
 
+## 真实效果展示
+
+![anker](img/3.jpg)
+![麦当劳](img/5.jpg)
+![huawei](img/6.jpg)
