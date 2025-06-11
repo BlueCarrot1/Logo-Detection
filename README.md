@@ -13,7 +13,7 @@ for sft training:
 ```bash Qwen_2_5VL/SFT/scripts/train.sh```
 
 for GRPO training:
-```bash Qwen_2_5VL/GRPO/grpo.py```
+```python Qwen_2_5VL/GRPO/grpo.py```
 reward design
 - IOU reward: matched boxes's performance, using mIOU
 - match reward: non match boxes 's performance, using F1 score
